@@ -23,11 +23,11 @@ This challenge allows the user to input a city of their choice to retrieve curre
 
 This next image shows the API being called, first to get the latitude and longitude. And a second time to use that latitude/longitude to get current weather.
 
-![Media-Queries-Image](assets/images/api.jpg)
+![Media-Queries-Image](Assets/images/api.jpg)
 
 Lastly this project utilized local storage by having the previously searched cities saved for quick access as shown below:
 
-![Media-Queries-Image](assets/images/history.jpg)
+![Media-Queries-Image](Assets/images/history.jpg)
 
 (I was unable to get the buttons to load from previous searches upon opening/refreshing the page.. but they are saved in local storage.)
 ## Credits
