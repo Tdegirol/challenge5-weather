@@ -20,19 +20,33 @@
             <section class = "m-2 col-lg-3 col-md-3 col-sm-3 vh-100 border" id="city-list">
                 <h2>Search for a City:</h2>
                 <input class="mb-2 w-100" type="text" id="city-search" placeholder="Example: New York"/>
-                <button class="w-100">Search</button>
+                <button class="w-100" id="search-btn">Search</button>
             </section>
+
             <div class="col">
-                <section class = "mt-2 mb-2 col-lg-12 col-md-12 col-sm-12 border" id="city-weather">
-                    <h3>City</h3>
+                <section class = "mt-2 mb-2 col-lg-12 col-md-12 col-sm-12 border">
+                    <h3 id="city-name"></h3>
+                    <h4 id="weather-description"></h4>
+                    <ul class="weather-list" id="current-weather"></ul>
                 </section>
+
                 <section class = "col-lg-12 col-md-12 col-sm-12 border" id="forecast">
                     <h3>5-Day Forecast</h3>
-                    <div class="days w-20 border" id="day1">day1</div>
-                    <div class="days w-20 border" id="day2">day2</div>
-                    <div class="days w-20 border" id="day3">day3</div>
-                    <div class="days w-20 border" id="day4">day4</div>
-                    <div class="days w-20 border" id="day5">day5</div>
+                    <div class="weather-list days w-20 border" id="day1">
+                        <ul class="weather-list" id="day1-weather"></ul>
+                    </div>
+                    <div class="weather-list days w-20 border" id="day2">
+                        <ul class="weather-list" id="day2-weather"></ul>
+                    </div>
+                    <div class="weather-list days w-20 border" id="day3">
+                        <ul class="weather-list" id="day3-weather"></ul>
+                    </div>
+                    <div class="weather-list days w-20 border" id="day4">
+                        <ul class="weather-list" id="day4-weather"></ul>
+                    </div>
+                    <div class="weather-list days w-20 border" id="day5">
+                        <ul class="weather-list" id="day5-weather"></ul>
+                    </div>
                 </section>
             </div>
         </div>
