@@ -8,11 +8,7 @@ var day2 = document.getElementById('day2');
 var day3 = document.getElementById('day3');
 var day4 = document.getElementById('day4');
 var day5 = document.getElementById('day5');
-var day1Weather = document.getElementById('day1-weather');
-var day2Weather = document.getElementById('day2-weather');
-var day3Weather = document.getElementById('day3-weather');
-var day4Weather = document.getElementById('day4-weather');
-var day5Weather = document.getElementById('day5-weather');
+var searchHistory = document.getElementById('city-list');
 
 //function to get API dependent on user selection
 function getApi(city) {
@@ -52,14 +48,28 @@ function getApi(city) {
       day5.textContent=forecastDates[4];
       // end set forecast dates
 
+      //create new search buttons & assign localStorage
+      localStorage.setItem(cityName,JSON.stringify(cityName));
+      var historyBtn = document.createElement("button");
+      historyBtn.style.width = '250px';
+      historyBtn.style.height = '25px';
+      historyBtn.style.border = 'black 2px';
+      historyBtn.style.margin = '5px';
+      historyBtn.style.backgroundColor = 'grey';
+      searchHistory.appendChild(historyBtn);
+      historyBtn.innerHTML=cityName;
+
       //start current conditions
       fetch(cityWeather)
       .then(function(responseWeather){
         return responseWeather.json();
       })
       .then(function(dataWeather){
+        var img = new Image(50,50);
+        img.src = 'http://openweathermap.org/img/wn/'+dataWeather.current.weather[0].icon+'@2x.png'
+        currentWeather.appendChild(img);
         weatherDescription.textContent = dataWeather.current.weather[0].description;
-
+      
         var currtemp = 'Temperature: ' + dataWeather.current.temp + ' deg F';
         var temp = document.createElement('li');
         temp.appendChild(document.createTextNode(currtemp));
@@ -79,7 +89,15 @@ function getApi(city) {
         var UV = document.createElement('li');
         UV.appendChild(document.createTextNode(currUV));
         currentWeather.appendChild(UV);
-        console.log(currentWeather)     
+        if (dataWeather.current.uvi < 4){
+          UV.style.backgroundColor = "green";
+        }
+        else if(dataWeather.current.uvi >= 7.5){
+          UV.style.backgroundColor = 'red';
+        }
+        else{
+          UV.style.backgroundColor = 'yellow';
+        }
       });
       //end current conditions
       var forecast = 'https://api.openweathermap.org/data/2.5/forecast?lat='+data[0].lat+'&lon='+data[0].lon+'&units=imperial&appid='+key+'&cnt=5';
@@ -88,31 +106,13 @@ function getApi(city) {
         return responseForecast.json();
       })
       .then(function(dataForecast){
-    
-        // var forecastDescription = dataForecast.list[0].weather[0].description;
-        // var description = document.createElement('li');
-        // description.appendChild(document.createTextNode(forecastDescription));
-        // day1.appendChild(description);
-
-        // var forecastTemp = 'Temperature: ' + dataForecast.list[0].main.temp + ' deg F';
-        // var temp = document.createElement('li');
-        // temp.appendChild(document.createTextNode(forecastTemp));
-        // day1.appendChild(temp);
-
-        // var forecastWind = 'Wind Speed: ' + dataForecast.list[0].wind.speed + ' MPH';
-        // var wind = document.createElement('li');
-        // wind.appendChild(document.createTextNode(forecastWind));
-        // day1.appendChild(wind);
-
-        // var forecastHumidity = 'Humidity: ' + dataForecast.list[0].main.humidity + '%';
-        // var humidity = document.createElement('li');
-        // humidity.appendChild(document.createTextNode(forecastHumidity));
-        // day1.appendChild(humidity);
-
-
+        console.log(dataForecast);
         var forecastWeather=[day1,day2,day3,day4,day5];
 
         for (x=0; x<5; x++){
+          var img = new Image(50,50);
+          img.src = 'http://openweathermap.org/img/wn/'+dataForecast.list[0].weather[0].icon+'@2x.png'
+          forecastWeather[x].appendChild(img);
           var forecastDescription = dataForecast.list[x].weather[0].description;
           var description = document.createElement('li');
           description.appendChild(document.createTextNode(forecastDescription));
@@ -134,50 +134,31 @@ function getApi(city) {
           forecastWeather[x].appendChild(humidity);
           console.log(forecastWeather)
         }
-        
       })
-
     });
 
-
 }
-
 searchBtn.addEventListener('click', getApi);
 
-// var forecastWeather=[
-//   day1weather{
-//     Description: description,
-//     Temperature: temp,
-//     Wind: wind,
-//     Humidity: humidity
-//   },
-//   day2weather{
-//     Description: description,
-//     Temperature: temp,
-//     Wind: wind,
-//     Humidity: humidity
-//   },
-//   day3weather{
-//     Description: description,
-//     Temperature: temp,
-//     Wind: wind,
-//     Humidity: humidity
-//   },
-//   day4weather{
-//     Description: description,
-//     Temperature: temp,
-//     Wind: wind,
-//     Humidity: humidity
-//   },
-//   day5weather{
-//     Description: description,
-//     Temperature: temp,
-//     Wind: wind,
-//     Humidity: humidity
-//   }
-// ]
-
-
-//credit for date:    https://stackoverflow.com/questions/1531093/how-do-i-get-the-current-date-in-javascript#:~:text=Use%20new%20Date()%20to,the%20current%20date%20and%20time.&text=This%20will%20give%20you%20today's,to%20whatever%20format%20you%20wish.
-
-//credit for unix:  https://stackoverflow.com/questions/847185/convert-a-unix-timestamp-to-time-in-javascript
+//load in existing cities searched for use again
+window.onload = function(){
+  cityList = JSON.parse(localStorage.getItem('cityList')); //get data from storage
+  if (cityList !== null) { //if data exist
+    loadHistoryButtons();
+    }
+   else { //if nothing exist in storage, keep todos array empty
+    cityList = [];
+  }
+}
+function loadHistoryButtons(){
+  for (i=0; i<localStorage.length; i++){
+    var historyBtn = document.createElement("button");
+    historyBtn.style.width = '250px';
+    historyBtn.style.height = '25px';
+    historyBtn.style.border = 'black 2px';
+    historyBtn.style.margin = '5px';
+    historyBtn.style.backgroundColor = 'grey';
+    searchHistory.appendChild(historyBtn);
+    historyBtn.innerHTML=localStorage.key(i);
+  }
+}
