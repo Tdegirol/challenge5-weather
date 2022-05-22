@@ -13,7 +13,7 @@ var searchHistory = document.getElementById('city-list');
 //function to get API dependent on user selection
 function getApi(city) {
   var city = document.getElementById('city-search').value;
-  var cityApi = 'http://api.openweathermap.org/geo/1.0/direct?q=' + city + '&limit=3&appid='+key;
+  var cityApi = 'https://api.openweathermap.org/geo/1.0/direct?q=' + city + '&limit=3&appid='+key;
   fetch(cityApi)
     .then(function(response) {
       return response.json();
@@ -66,7 +66,7 @@ function getApi(city) {
       })
       .then(function(dataWeather){
         var img = new Image(50,50);
-        img.src = 'http://openweathermap.org/img/wn/'+dataWeather.current.weather[0].icon+'@2x.png'
+        img.src = 'https://openweathermap.org/img/wn/'+dataWeather.current.weather[0].icon+'@2x.png'
         currentWeather.appendChild(img);
         weatherDescription.textContent = dataWeather.current.weather[0].description;
       
