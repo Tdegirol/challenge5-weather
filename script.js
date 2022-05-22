@@ -111,7 +111,7 @@ function getApi(city) {
 
         for (x=0; x<5; x++){
           var img = new Image(50,50);
-          img.src = 'http://openweathermap.org/img/wn/'+dataForecast.list[0].weather[0].icon+'@2x.png'
+          img.src = 'https://openweathermap.org/img/wn/'+dataForecast.list[0].weather[0].icon+'@2x.png'
           forecastWeather[x].appendChild(img);
           var forecastDescription = dataForecast.list[x].weather[0].description;
           var description = document.createElement('li');
